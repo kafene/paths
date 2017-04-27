@@ -4,11 +4,10 @@
 import io = std.stdio : write, writeln, writefln;
 import re = std.regex : regex, replaceAll, split;
 import std.path : pathSeparator, pathSplitter, isValidPath;
-import std.getopt : getopt, GetOptException, GetoptResult;
 import std.string : strip, chomp, toLower;
 import std.format : format;
 import std.array : array, join;
-import std.algorithm.iteration : map, filter, uniq;
+import std.algorithm.iteration : map, filter;
 import std.algorithm.searching : canFind;
 import std.algorithm.comparison : equal;
 import core.stdc.stdlib : exit;
