@@ -1,4 +1,4 @@
-# paths.sh
+# paths
 A utility for manipulating path variables ($PATH, $MANPATH, $INFOPATH, etc.)
 
 To run use `rdmd -unittest paths.d ...`.
