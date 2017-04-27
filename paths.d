@@ -13,7 +13,7 @@ import std.algorithm.comparison : equal;
 import core.stdc.stdlib : exit;
 
 static immutable HELPTEXT = format("  %s", strip("
-  \033[1;4mpaths\033[0m
+  \033[1;4mpaths 0.0.1\033[0m
 
     A utility for manipulating paths ($PATH, $MANPATH, $INFOPATH, etc.)
     Copyright (c) 2017 kafene software (https://kafene.org/), MIT Licensed.
@@ -21,6 +21,7 @@ static immutable HELPTEXT = format("  %s", strip("
 
   \033[1mUsage\033[0m:
     paths [help]
+          [version]
           [normalize-dir] <dir>
           [normalize]     <path>
           [split]         <path>
@@ -93,7 +94,7 @@ string path_split(string path)
     path = path_normalize(path);
 
     string[] path_parts = _path_split(path);
-    path_parts = array(path_parts.map!(part => replaceAll(part, re.regex("(\\s+)", "g"), "\\$1")));
+    path_parts = array(path_parts.map!(part => replaceAll(part, re.regex("(\\s)", "g"), "\\$1")));
 
     path = path_parts.join(" ");
 
@@ -208,8 +209,8 @@ unittest
         actual = path_normalize(path);
         assert(equal(expected, actual));
 
-        path = ":/bin/:://a:/usr/bin:::á, é, ü/ñ@¿://bin://foo//bar/baz///";
-        expected = "/bin /a /usr/bin á,\\ é,\\ ü/ñ@¿ /bin /foo/bar/baz";
+        path = ":/bin/:://a:/usr/bin:::á,   é, ü/ñ@¿://bin://foo//bar/baz///";
+        expected = "/bin /a /usr/bin á,\\ \\ \\ é,\\ ü/ñ@¿ /bin /foo/bar/baz";
         actual = path_split(path);
         assert(equal(expected, actual));
 
@@ -247,6 +248,10 @@ void main(string[] args)
     string cmd = toLower(args[1]);
 
     if (["help", "-h", "--h", "-help", "--help"].canFind(cmd)) {
+        io.writeln(HELPTEXT);
+        exit(0);
+    }
+    if (["version", "-v", "--v", "-version", "--version"].canFind(cmd)) {
         io.writeln(HELPTEXT);
         exit(0);
     }
