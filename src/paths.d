@@ -3,7 +3,7 @@
 
 import io = std.stdio : write, writeln, writefln;
 import re = std.regex : regex, replaceAll, split;
-import std.path : pathSeparator, pathSplitter, isValidPath;
+import std.path : pathSeparator, isValidPath;
 import std.string : strip, chomp, toLower;
 import std.format : format;
 import std.array : array, join;
@@ -13,7 +13,7 @@ import std.algorithm.comparison : equal;
 import core.stdc.stdlib : exit;
 
 static immutable HELPTEXT = format("  %s", strip("
-  \033[1;4mpaths 0.0.1\033[0m
+  \033[1;4mpaths @@VERSION@@\033[0m
 
     A utility for manipulating paths ($PATH, $MANPATH, $INFOPATH, etc.)
     Copyright (c) 2017 kafene software (https://kafene.org/), MIT Licensed.
@@ -110,7 +110,7 @@ string path_normalize(string path)
     string[] path_parts = _path_split(path);
     path_parts = array(path_parts.map!(dir_normalize));
 
-    path = join(path_parts, pathSeparator);
+    path = path_parts.join(pathSeparator);
 
     assert(isValidPath(path));
 
@@ -127,7 +127,7 @@ string path_filter(string path)
     path_parts = array(path_parts.filter!(part => fs.exists(part) && fs.isDir(part)));
     path_parts = path_parts.dedupe();
 
-    path = join(path_parts, pathSeparator);
+    path = path_parts.join(pathSeparator);
 
     assert(isValidPath(path));
 
@@ -156,7 +156,7 @@ string path_prepend(string path, string[] dirs)
         }
     }
 
-    path = join(path_parts, pathSeparator);
+    path = path_parts.join(pathSeparator);
 
     assert(isValidPath(path));
 
@@ -175,7 +175,7 @@ string path_append(string path, string[] dirs)
         }
     }
 
-    path = join(path_parts, pathSeparator);
+    path = path_parts.join(pathSeparator);
 
     assert(isValidPath(path));
 
@@ -199,9 +199,9 @@ unittest
 {
     import core.exception : AssertError;
 
-    string path;
-    string expected;
-    string actual;
+    string path = "";
+    string expected = "";
+    string actual = "";
 
     try {
         path = ":/bin/:://a:/usr/bin:::á, é, ü/ñ@¿://bin://foo//bar/baz///";
@@ -220,7 +220,7 @@ unittest
         assert(equal(expected, actual));
 
         path = ":/bin/:://a:/usr/bin:::á, é, ü/ñ@¿://bin://foo//bar/baz///";
-        assert(path_has(path, "á, é, ü/ñ@¿") == true);
+        assert(path_has(path, "á, é, ü/ñ@¿"));
 
         path = ":/bin/:://a:/usr/bin:::á, é, ü/ñ@¿://bin://foo//bar/baz///";
         expected = "/foo:/bin:/a:/usr/bin:á, é, ü/ñ@¿:/bin:/foo/bar/baz";

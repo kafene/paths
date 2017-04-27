@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+__dir="$(cd -P -- "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+
+version="$(head -n1 ${__dir}/VERSION)"
+dest_dir="${__dir}/release/paths-${version}"
+
+mkdir -vp "${dest_dir}"
+
+sed "s/@@VERSION@@/${version}/" "${__dir}/src/paths.d" > "${dest_dir}/paths.d"
+
+dmd -v -w -de -unittest -release -od="${dest_dir}" -of="${dest_dir}/paths" "${dest_dir}/paths.d"
+
+builtin cd "${__dir}/release"
+tar czf "./paths-${version}.tar.gz" "paths-${version}/paths" "paths-${version}/paths.o"
+builtin cd -
