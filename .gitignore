@@ -1,6 +1,6 @@
 /bin
 .dub
-    docs.json
+docs.json
 __dummy.html
 *.o
 *.obj
