@@ -1,0 +1,11 @@
+{
+	"name": "paths",
+	"description": "paths in D",
+	"authors": ["kafene software"],
+	"license": "MIT",
+	"copyright": "Copyright © 2017, kafene software (https://kafene.org/)",
+    "targetType": "executable",
+	"dependencies": {
+		"docopt": ">=0.6.1-b.6 <0.7.0"
+	}
+}
