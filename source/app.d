@@ -11,15 +11,6 @@ import std.algorithm.searching : canFind, startsWith;
 import std.algorithm.comparison : equal;
 import core.stdc.stdlib : exit;
 
-/* test:
-~/.local/bin/paths filter "$(~/.local/bin/paths/join \
-    "." \
-    "${HOME}/.local/bin" \
-    "${HOME}/bin" \
-    "${HOME}/.bin" \
-)"
-*/
-
 // @see <http://docopt.org/>
 // @see <https://github.com/docopt/docopt.d>
 static immutable APP_DOC = "
